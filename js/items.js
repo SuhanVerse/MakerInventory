@@ -1,3 +1,5 @@
+// items.js
+
 //Create items container
 
 function createItems(itemsArray) {
