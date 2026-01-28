@@ -1,13 +1,20 @@
 // app.js
 
 var items = Items;
+var editId = null;
 
 //Render App
 function render() {
   var $app = $("#app");
   $app.empty();
 
-  var $formElement = createForm();
+  var itemToEdit = editId
+    ? $.grep(items, function (item) {
+        return item.id === editId;
+      })[0]
+    : null;
+
+  var $formElement = createForm(editId, itemToEdit);
   var $itemsElement = createItems(items);
 
   $app.append($formElement);
@@ -50,6 +57,7 @@ function editCompleted(itemId) {
   render();
 }
 
+//Remove Item Function
 function removeItem(itemId) {
   items = $.grep(items, function (item) {
     return item.id !== itemId;
@@ -57,5 +65,31 @@ function removeItem(itemId) {
   render();
   setTimeout(function () {
     alert("Item Deleted Successfully!");
+  }, 0);
+}
+
+//Update Item Name Function
+function updateItemName(newName) {
+  items = $.map(items, function (item) {
+    if (item.id === editId) {
+      return $.extend({}, item, { name: newName });
+    }
+    return item;
+  });
+  editId = null;
+  render();
+  setTimeout(function () {
+    alert("Item Update Successfully!");
+  }, 0);
+}
+
+//Set Edit Id Function
+function setEditId(itemId) {
+  editId = itemId;
+  render();
+
+  //Focus input after render
+  setTimeout(function () {
+    $(".form-input").focus();
   }, 0);
 }

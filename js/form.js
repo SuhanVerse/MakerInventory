@@ -1,9 +1,10 @@
 // form.js
 
 //Create Form Element
-function createForm() {
+function createForm(editId, itemToEdit) {
   var $form = $("<form></form>");
 
+  //added value and dynamic button name
   $form.html(`
         <h2>Maker Inventory</h2>
         <div class="form-control">
@@ -27,8 +28,14 @@ function createForm() {
       return;
     }
 
-    addItem(value);
+    //added conditions
+    if (editId) {
+      updateItemName(value);
+    } else {
+      addItem(value);
+    }
     $input.val("");
   });
+
   return $form;
 }
